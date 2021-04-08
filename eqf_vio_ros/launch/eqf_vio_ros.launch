@@ -1,0 +1,12 @@
+<launch>
+
+<param name="eqf_vio/eqf_vio_config" type="str" value="$(find eqf_vio_ros)/config/eqf_vio_config.yaml" />
+<param name="eqf_vio/gift_config" type="str" value="$(find eqf_vio_ros)/config/gift_config.yaml" />
+<param name="eqf_vio/camera_intrinsics" type="str" value="$(find eqf_vio_ros)/config/camera_intrinsics.yaml" />
+
+<remap from="/eqf_vio/imu" to="/imu0"/>
+<remap from="/eqf_vio/image" to="/cam0/image_raw"/>
+
+<node pkg="eqf_vio_ros" name="eqf_vio" type="eqf_vio_ros_node" output="screen"/>
+
+</launch>

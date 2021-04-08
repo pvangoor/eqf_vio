@@ -1,0 +1,12 @@
+.vscode/*
+build/*
+scripts/*.csv
+scripts/*.yaml
+EQF_VIO_output*.csv
+.~lock*
+callgrind.out.*
+EQF_VIO_internal*.csv
+EQF_VIO_config.yaml
+scripts/images/*
+camera.yaml
+datasets/*
