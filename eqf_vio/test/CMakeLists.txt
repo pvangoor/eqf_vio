@@ -19,7 +19,7 @@ target_link_libraries(testing_utilities_lib
 
 set(TESTS_LIST
     test_common
-    test_CSVReader
+    # test_CSVReader
     test_VIOGroup
     test_VIOGroupActions
     test_VIOLift
