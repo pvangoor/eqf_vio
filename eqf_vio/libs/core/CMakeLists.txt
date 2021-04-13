@@ -6,7 +6,6 @@ set(eqf_violib_core_HEADER_FILES
 )
 
 set(eqf_violib_core_SOURCE_FILES
-    src/common.cpp
     src/SO3.cpp
     src/SE3.cpp
     src/SOT3.cpp
