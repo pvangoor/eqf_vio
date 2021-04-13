@@ -81,7 +81,7 @@ int main(int argc, char const* argv[]) {
 
     // Set up the feature tracker
 
-    GIFT::Camera camera = GIFT::Camera(cv::String(eqf_vioConfig["GIFT"]["intrinsicsFile"].as<std::string>()));
+    GIFT::PinholeCamera camera = GIFT::PinholeCamera(cv::String(eqf_vioConfig["GIFT"]["intrinsicsFile"].as<std::string>()));
     GIFT::PointFeatureTracker featureTracker = GIFT::PointFeatureTracker(camera);
     safeConfig(eqf_vioConfig["GIFT"]["maxFeatures"], featureTracker.maxFeatures);
     safeConfig(eqf_vioConfig["GIFT"]["featureDist"], featureTracker.featureDist);

@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     cbSys.filter = VIOFilter(filterSettings);
     ROS_INFO_STREAM("EqF configured from\n" << eqf_vioConfig_fname);
 
-    GIFT::Camera camera = GIFT::Camera(cv::String(cameraIntrinsics_fname));
+    GIFT::PinholeCamera camera = GIFT::PinholeCamera(cv::String(cameraIntrinsics_fname));
     ROS_INFO_STREAM("Camera configured from\n" << cameraIntrinsics_fname);
 
     cbSys.featureTracker = GIFT::PointFeatureTracker(camera);
