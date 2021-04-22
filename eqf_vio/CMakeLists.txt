@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Set off if you want to build the project in pure cmake
 
 
+include(CMakeDependentOption)
 
 # Import external dependencies
 
