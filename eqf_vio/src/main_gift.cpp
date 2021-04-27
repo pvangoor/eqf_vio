@@ -35,6 +35,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <exception>
 
 #if BUILD_VISUALISATION
 #include "Plotter.h"
@@ -60,19 +61,40 @@ int main(int argc, char const* argv[]) {
 
     // Set up the data iterator for IMU and video and video stamps
     std::ifstream IMUFile = std::ifstream(IMUFileName);
+    if (!IMUFile.good()) {
+            std::stringstream ess;
+        ess << "Could not open the IMU data: " << IMUFileName;
+        throw std::runtime_error(ess.str());
+    }
     CSVReader IMUFileIter(IMUFile);
     ++IMUFileIter; // skip the header
     IMUVelocity imuData = readIMUData(*IMUFileIter);
+
+    if (!std::ifstream(VideoFileName).good()) {
+        std::stringstream ess;
+        ess << "Could not open the video file: " << VideoFileName;
+        throw std::runtime_error(ess.str());
+    }
 
     cv::VideoCapture cap(VideoFileName);
     cv::Mat currentFrame;
 
     std::ifstream VideoStampsFile = std::ifstream(VideoStampsFileName);
+        if (!VideoStampsFile.good()) {
+        std::stringstream ess;
+        ess << "Could not open the video stamps file: " << VideoStampsFileName;
+        throw std::runtime_error(ess.str());
+    }
     CSVReader VideoStampsIter(VideoStampsFile);
     ++VideoStampsIter; // skip the header
     double videoStamp = readVideoStamp(*VideoStampsIter);
 
     // Read I/O settings
+    if (!std::ifstream(ConfigFileName).good()) {
+        std::stringstream ess;
+        ess << "Could not open the configuration file: " << ConfigFileName;
+        throw std::runtime_error(ess.str());
+    }
     const YAML::Node eqf_vioConfig = YAML::LoadFile(ConfigFileName);
     const double startTime = eqf_vioConfig["main"]["startTime"].as<double>();
     const bool writeStateFlag = eqf_vioConfig["main"]["writeState"].as<bool>();
@@ -97,8 +119,13 @@ int main(int argc, char const* argv[]) {
     VIOFilter filter(filterSettings);
 
     // Set up the feature tracker
-
-    GIFT::PinholeCamera camera = GIFT::PinholeCamera(cv::String(eqf_vioConfig["GIFT"]["intrinsicsFile"].as<std::string>()));
+    const std::string cameraIntrinsicsFname = eqf_vioConfig["GIFT"]["intrinsicsFile"].as<std::string>();
+    if (!std::ifstream(cameraIntrinsicsFname).good()) {
+        std::stringstream ess;
+        ess << "Could not open the GIFT camera intrinsics: " << cameraIntrinsicsFname;
+        throw std::runtime_error(ess.str());
+    }
+    GIFT::PinholeCamera camera = GIFT::PinholeCamera(cv::String(cameraIntrinsicsFname));
     GIFT::PointFeatureTracker featureTracker = GIFT::PointFeatureTracker(camera);
     safeConfig(eqf_vioConfig["GIFT"]["maxFeatures"], featureTracker.maxFeatures);
     safeConfig(eqf_vioConfig["GIFT"]["featureDist"], featureTracker.featureDist);
@@ -221,13 +248,20 @@ int main(int argc, char const* argv[]) {
 
 IMUVelocity readIMUData(const CSVLine& row) {
     IMUVelocity imuData;
+    if (row.size() < 7) {
+        throw std::length_error("Each line of IMU data must contain at least 7 entries.");
+    }
     imuData.stamp = stod(row[0]);
     imuData.omega << stod(row[1]), stod(row[2]), stod(row[3]);
     imuData.accel << stod(row[4]), stod(row[5]), stod(row[6]);
     return imuData;
 }
 
-double readVideoStamp(const CSVLine& row) { return stod(row[0]); }
+double readVideoStamp(const CSVLine& row) { 
+    if (row.size() < 1) {
+        throw std::length_error("Each line of video stamp data must contain at least 1 entry.");
+    }
+    return stod(row[0]); }
 
 VisionMeasurement convertGIFTFeatures(const std::vector<GIFT::Feature>& GIFTFeatures, const double& stamp) {
     VisionMeasurement measurement;

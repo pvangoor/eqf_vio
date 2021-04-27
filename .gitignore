@@ -10,3 +10,4 @@ EQF_VIO_config.yaml
 scripts/images/*
 camera.yaml
 datasets/*
+eqf_vio/build/*
