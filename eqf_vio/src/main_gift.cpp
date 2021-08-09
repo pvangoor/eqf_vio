@@ -127,13 +127,7 @@ int main(int argc, char const* argv[]) {
     }
     GIFT::PinholeCamera camera = GIFT::PinholeCamera(cv::String(cameraIntrinsicsFname));
     GIFT::PointFeatureTracker featureTracker = GIFT::PointFeatureTracker(camera);
-    safeConfig(eqf_vioConfig["GIFT"]["maxFeatures"], featureTracker.maxFeatures);
-    safeConfig(eqf_vioConfig["GIFT"]["featureDist"], featureTracker.featureDist);
-    safeConfig(eqf_vioConfig["GIFT"]["minHarrisQuality"], featureTracker.minHarrisQuality);
-    safeConfig(eqf_vioConfig["GIFT"]["featureSearchThreshold"], featureTracker.featureSearchThreshold);
-    safeConfig(eqf_vioConfig["GIFT"]["maxError"], featureTracker.maxError);
-    safeConfig(eqf_vioConfig["GIFT"]["winSize"], featureTracker.winSize);
-    safeConfig(eqf_vioConfig["GIFT"]["maxLevel"], featureTracker.maxLevel);
+    cbSys.featureTracker.settings.configure(giftConfig["GIFT"]);
 
     // Set up output files
     std::time_t t0 = std::time(nullptr);

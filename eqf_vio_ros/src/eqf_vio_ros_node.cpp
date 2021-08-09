@@ -63,13 +63,7 @@ int main(int argc, char* argv[]) {
     ROS_INFO_STREAM("Camera configured from\n" << cameraIntrinsics_fname);
 
     cbSys.featureTracker = GIFT::PointFeatureTracker(camera);
-    safeConfig(giftConfig["GIFT"]["maxFeatures"], cbSys.featureTracker.maxFeatures);
-    safeConfig(giftConfig["GIFT"]["featureSearchThreshold"], cbSys.featureTracker.featureSearchThreshold);
-    safeConfig(giftConfig["GIFT"]["featureDist"], cbSys.featureTracker.featureDist);
-    safeConfig(giftConfig["GIFT"]["minHarrisQuality"], cbSys.featureTracker.minHarrisQuality);
-    safeConfig(giftConfig["GIFT"]["maxError"], cbSys.featureTracker.maxError);
-    safeConfig(giftConfig["GIFT"]["winSize"], cbSys.featureTracker.winSize);
-    safeConfig(giftConfig["GIFT"]["maxLevel"], cbSys.featureTracker.maxLevel);
+    cbSys.featureTracker.settings.configure(giftConfig["GIFT"]);
     ROS_INFO_STREAM("GIFT configured from\n" << giftConfig_fname);
     
 
