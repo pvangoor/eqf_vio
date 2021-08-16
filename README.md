@@ -1,6 +1,7 @@
 # EqF VIO (Equivariant Filter for Visual Inertial Odometry)
 
 This repository contains an implementation of an Equivariant Filter (EqF) for Visual Inertial Odometry (VIO).
+Please check the wiki for instructions on how to install the project as a ROS node or as a standalone executable.
 
 ## Dependencies
 

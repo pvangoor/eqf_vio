@@ -13,7 +13,7 @@ eqf:
   initialBiasOmegaVariance: 1.0
   initialBiasAccelVariance: 1.0
   initialSceneDepth: 1.0
-  outlierThreshold: 0.01
+  outlierThreshold: 0.02
   fastRiccati: false
   useInnovationLift: true
   useDiscreteInnovationLift: true
