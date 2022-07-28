@@ -127,7 +127,7 @@ int main(int argc, char const* argv[]) {
     }
     GIFT::PinholeCamera camera = GIFT::PinholeCamera(cv::String(cameraIntrinsicsFname));
     GIFT::PointFeatureTracker featureTracker = GIFT::PointFeatureTracker(camera);
-    cbSys.featureTracker.settings.configure(giftConfig["GIFT"]);
+    featureTracker.settings.configure(eqf_vioConfig["GIFT"]);
 
     // Set up output files
     std::time_t t0 = std::time(nullptr);
